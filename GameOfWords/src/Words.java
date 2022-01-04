@@ -42,15 +42,22 @@ public class Words extends JPanel implements KeyListener {
 	private int[] x = new int[15];// x positions of the strings
 	private int[] y = new int[15];// y positions of the strings
 	private boolean move = false;
-	private int countDoor = 0;// counter for the door image
+	private int[] countDoor = new int[10];// counter for the door image
 	private boolean explain = false;// signify when to print the explanation for living room scene
 	private boolean disappear = false;// explanation disappear when player moves
 	private boolean inspect = false;// can start inspecting
 	private boolean wall, cabinet, painting, table, flower;// items that can be inspected
 	private int interm = 8;// some intermediate value for printing out two lines of text
 	private boolean keep = false;// also some variable that will only be used once
+	private boolean changeD = false;// signals when to change "door" into door
+	private int doorx = 242;// x position of image door
+	private int doory = 401;// y position of image door
+	private boolean lr = false;// when to paint the living room
+	private boolean road = false;// when to paint road and bank
+	private int roadx = 0;// x position of the image road
+	private int countBall = 0;// counter for ball movement
 	// image variables
-	private Image meImg, doorImg, door2Img, door3Img, lrImg;
+	private Image meImg, doorImg, door2Img, door3Img, lrImg, roadImg, bankImg, ballImg, bdoorImg, bdoor2Img, bdoor3Img;
 	private int Ix = 51;
 	private int Iy = 116;
 	
@@ -74,6 +81,12 @@ public class Words extends JPanel implements KeyListener {
 		door2Img = Toolkit.getDefaultToolkit().getImage("door 2.png");
 		door3Img = Toolkit.getDefaultToolkit().getImage("door 3.png");
 		lrImg = Toolkit.getDefaultToolkit().getImage("living room.png");
+		roadImg = Toolkit.getDefaultToolkit().getImage("road.png");
+		bankImg = Toolkit.getDefaultToolkit().getImage("bank.png");
+		ballImg = Toolkit.getDefaultToolkit().getImage("ball.png");
+		bdoorImg = Toolkit.getDefaultToolkit().getImage("bank door.png");
+		bdoor2Img = Toolkit.getDefaultToolkit().getImage("bank door2.png");
+		bdoor3Img = Toolkit.getDefaultToolkit().getImage("bank door 3.png");
 		
 		
 		// text array
@@ -139,7 +152,7 @@ public class Words extends JPanel implements KeyListener {
 	
 	// check if I and something else collides
 	public void collision() {
-		if (Ix>=242&&Ix<=291&&Iy>=401&&Iy<=421) {
+		if (Ix>=doorx-3&&Ix<=doorx+49&&Iy>=doory&&Iy<=doory+20) {
 			collide = true;
 		}
 	}
@@ -173,24 +186,28 @@ public class Words extends JPanel implements KeyListener {
 			for (int i = 0; i<counter; i++) {
 				if (i==3) {
 					text[3] = "But where is the      ?";
-					if(countDoor<20) g.drawImage(doorImg, 242, 401, 49, 20, null);
-					else if(countDoor<40) g.drawImage(door2Img, 242, 401, 49, 20, null);
-					else if (countDoor<60) g.drawImage(door3Img, 242, 401, 49, 20, null);
+					if(countDoor[0]<20) g.drawImage(doorImg, doorx, doory, 49, 20, null);
+					else if(countDoor[0]<40) g.drawImage(door2Img, doorx, doory, 49, 20, null);
+					else if (countDoor[0]<60) g.drawImage(door3Img, doorx, doory, 49, 20, null);
 				}
 				g.drawString(text[i], x[i], y[i]);
 			}
 		}
 		if (counter==4) move = true;
 		// if collide, clear screen
-		if(collide == true) {
-			countDoor++;
+		if(collide == true&&painting == false) {
+			countDoor[0]++;
 			// background color is black
-			if (countDoor >= 80) {
-				g.drawImage(lrImg, 0, 0, WIDTH, HEIGHT, null);
-				g.drawImage(meImg, Ix, Iy, 17, 31, null);
-				explain = true;
-				move = false;
+			if (countDoor[0] >= 80) {
+				lr = true;
+				collide = false;
 			}
+		}
+		if (lr == true) {
+			g.drawImage(lrImg, 0, 0, WIDTH, HEIGHT, null);
+			g.drawImage(meImg, Ix, Iy, 17, 31, null);
+			explain = true;
+			move = false;
 		}
 		if(counter>=4) {
 			if (countStart[counter]==true) {
@@ -224,14 +241,31 @@ public class Words extends JPanel implements KeyListener {
 		}
 		else if(painting==true) {
 			next = false;
-			count[interm]++;
-			g.drawString(type(text[interm], count[interm]), x[interm], y[interm]);
+			if (interm<10) {
+				count[interm]++;
+				g.drawString(type(text[interm], count[interm]), x[interm], y[interm]);
+			}
 			if (next == true) {
-				interm = 9;
+				interm++;
 				next = false;
 				keep = true;
+				if (interm == 10) changeD = true;
 			}
 			if (keep == true) g.drawString(text[8], x[8], y[8]);
+			if (changeD == true) {
+				g.drawString("He holds the key to the       of success.", 7, 160);
+				doorx = 278;
+				doory = 141;
+				if (collide == true) countDoor[1]++;
+				if(countDoor[1]<20) g.drawImage(doorImg, doorx, doory, 49, 20, null);
+				else if(countDoor[1]<40) g.drawImage(door2Img, doorx, doory, 49, 20, null);
+				else if (countDoor[1]<60) g.drawImage(door3Img, doorx, doory, 49, 20, null);
+				if(countDoor[1]==80) {
+					road = true;
+					Ix = 280;
+					Iy = 350;
+				}
+			}
 		}
 		else if(flower==true) {
 			counter = 10;
@@ -242,6 +276,17 @@ public class Words extends JPanel implements KeyListener {
 			counter = 11;
 			count[counter]++;
 			g.drawString(type(text[counter], count[counter]), x[counter], y[counter]);
+		}
+		if (road == true) {
+			countBall++;
+			g.drawImage(roadImg, roadx, 0, 1214, HEIGHT, null);
+			g.drawImage(bankImg, roadx+1214, 0, 660, HEIGHT, null);
+			if (countBall%100<25) g.drawImage(ballImg, roadx+975, 296, 56, 20, null);
+			else if (countBall%100<50) g.drawImage(ballImg, roadx+915, 296, 56, 20, null);
+			else if (countBall%100<75) g.drawImage(ballImg, roadx+855, 296, 56, 20, null);
+			else g.drawImage(ballImg, roadx+915, 296, 56, 20, null);
+			g.drawImage(bdoorImg, roadx+1616, 256, 200, 96, null);// this position is not very accurate
+			g.drawImage(meImg, Ix, Iy, 17, 31, null);
 		}
 	}
 
@@ -262,11 +307,6 @@ public class Words extends JPanel implements KeyListener {
 			if (cabinet==true) {
 				cabinet = false;
 				count[7]=0;
-			}
-			if (painting==true) {
-				painting = false;
-				count[8]=0;
-				count[9]=0;
 			}
 			if (flower==true) {
 				flower = false;
@@ -290,11 +330,6 @@ public class Words extends JPanel implements KeyListener {
 				cabinet = false;
 				count[7]=0;
 			}
-			if (painting==true) {
-				painting = false;
-				count[8]=0;
-				count[9]=0;
-			}
 			if (flower==true) {
 				flower = false;
 				count[10]=0;
@@ -306,7 +341,9 @@ public class Words extends JPanel implements KeyListener {
 		} 
 		
 		if (keyCode == KeyEvent.VK_LEFT && move==true) {
-			Ix-=32;
+			if (road == false)Ix-=32;
+			else if (roadx>=0&&Ix>=0) Ix-=32;
+			else if (road == true&&roadx<0) roadx+=32;
 			if (counter==6) disappear = true;
 			if (wall==true) {
 				wall = false;
@@ -315,11 +352,6 @@ public class Words extends JPanel implements KeyListener {
 			if (cabinet==true) {
 				cabinet = false;
 				count[7]=0;
-			}
-			if (painting==true) {
-				painting = false;
-				count[8]=0;
-				count[9]=0;
 			}
 			if (flower==true) {
 				flower = false;
@@ -333,7 +365,9 @@ public class Words extends JPanel implements KeyListener {
 			// fill this in
 		
 		if (keyCode == KeyEvent.VK_RIGHT && move == true) {
-			Ix+=32;
+			if (road == false||roadx<=-1274)Ix+=32;
+			else if (Ix<WIDTH/2) Ix+=32;
+			else if (road == true) roadx-=32;
 			if (counter==6) disappear = true;
 			if (wall==true) {
 				wall = false;
@@ -342,11 +376,6 @@ public class Words extends JPanel implements KeyListener {
 			if (cabinet==true) {
 				cabinet = false;
 				count[7]=0;
-			}
-			if (painting==true) {
-				painting = false;
-				count[8]=0;
-				count[9]=0;
 			}
 			if (flower==true) {
 				flower = false;
@@ -357,15 +386,53 @@ public class Words extends JPanel implements KeyListener {
 				count[11]=0;
 			}
 		} 
-		
+	
 		if (keyCode == KeyEvent.VK_SPACE && inspect == true) {
-			if ((Ix<=192&&Ix>=0&&Iy>=0&&Iy<=84)||(Ix<=600&&Ix>=408&&Iy>=0&&Iy<=64)) wall = true;
-			else if (Ix>=192&&Ix<=408&&Iy>=52&&Iy<=84) cabinet = true;
+			if ((Ix<=192&&Ix>=0&&Iy>=0&&Iy<=84)||(Ix<=600&&Ix>=408&&Iy>=0&&Iy<=64)) {
+				wall = true;
+				if (painting==true) {
+					count[8]=0;
+					count[9]=0;
+					interm = 8;
+					keep = false;
+					changeD = false;
+					painting = false;
+				}
+			}
+			else if (Ix>=192&&Ix<=408&&Iy>=52&&Iy<=84) {
+				cabinet = true;
+				if (painting==true) {
+					count[8]=0;
+					count[9]=0;
+					interm = 8;
+					keep = false;
+					changeD = false;
+					painting = false;
+				}
+			}
 			else if (Ix>=467&&Ix<=531&&Iy>=84&&Iy<=180) painting = true;
-			else if (Ix>=403&&Ix<=467&&Iy==340) flower = true;
-			else if (Ix>=403&&Ix<=563&&Iy>=372&&Iy<=436) table = true;
-			System.out.println(Ix);
-			System.out.println(Iy);
+			else if (Ix>=403&&Ix<=467&&Iy==340) {
+				flower = true;
+				if (painting==true) {
+					count[8]=0;
+					count[9]=0;
+					interm = 8;
+					keep = false;
+					changeD = false;
+					painting = false;
+				}
+			}
+			else if (Ix>=403&&Ix<=563&&Iy>=372&&Iy<=436) {
+				table = true;
+				if (painting==true) {
+					count[8]=0;
+					count[9]=0;
+					interm = 8;
+					keep = false;
+					changeD = false;
+					painting = false;
+				}
+			}
 		}
 			// fill this in
 
@@ -399,9 +466,10 @@ public class Words extends JPanel implements KeyListener {
 		while (true) {
 	
 			// draws the game
+			repaint();
+			
 			setup();
 			collision();
-			repaint();
 			
 			
 			// every hundredth of a second
