@@ -56,6 +56,7 @@ public class Words extends JPanel implements KeyListener {
 	private boolean road = false;// when to paint road and bank
 	private int roadx = 0;// x position of the image road
 	private int countBall = 0;// counter for ball movement
+	private int previousx, previousy;// stores the previous position of "I"
 	// image variables
 	private Image meImg, doorImg, door2Img, door3Img, lrImg, roadImg, bankImg, ballImg, bdoorImg, bdoor2Img, bdoor3Img;
 	private int Ix = 51;
@@ -285,7 +286,7 @@ public class Words extends JPanel implements KeyListener {
 			else if (countBall%100<50) g.drawImage(ballImg, roadx+915, 296, 56, 20, null);
 			else if (countBall%100<75) g.drawImage(ballImg, roadx+855, 296, 56, 20, null);
 			else g.drawImage(ballImg, roadx+915, 296, 56, 20, null);
-			g.drawImage(bdoorImg, roadx+1616, 256, 200, 96, null);// this position is not very accurate
+			g.drawImage(bdoorImg, roadx+1454, 358, 300, 144, null);// this position is not very accurate
 			g.drawImage(meImg, Ix, Iy, 17, 31, null);
 		}
 	}
@@ -298,7 +299,13 @@ public class Words extends JPanel implements KeyListener {
 		
 		// changes paddle direction based on what button is pressed
 		if (keyCode == KeyEvent.VK_DOWN && move==true) {
-			Iy+=32;
+			if (Iy>=HEIGHT-92&&Iy!=HEIGHT-60) {
+				previousy = Iy;
+				Iy = HEIGHT-60;
+			}
+			else if (Iy == 0) Iy = previousy;
+			else if (Iy<=HEIGHT-92) Iy+=32;
+			else Iy = HEIGHT-60;
 			if (counter==6) disappear = true;
 			if (wall==true) {
 				wall = false;
@@ -320,7 +327,12 @@ public class Words extends JPanel implements KeyListener {
 			// fill this in
 		
 		if (keyCode == KeyEvent.VK_UP && move == true) {
-			Iy-=32;
+			if (Iy<=32&&Iy!=0) {
+				previousy = Iy;
+				Iy = 0;
+			}
+			else if (Iy == HEIGHT) Iy = previousy;
+			else if (Iy>=32) Iy-=32;
 			if (counter==6) disappear = true;
 			if (wall==true) {
 				wall = false;
@@ -341,8 +353,15 @@ public class Words extends JPanel implements KeyListener {
 		} 
 		
 		if (keyCode == KeyEvent.VK_LEFT && move==true) {
-			if (road == false)Ix-=32;
+			if (Ix<=32&&Ix!=0) {
+				previousx = Ix;
+				Ix = 0;
+			}
+			else if (Ix == WIDTH) Ix = previousx;
+			else if (road == false&&Ix>32)Ix-=32;
+			else if (Ix == 0) Ix = 0;
 			else if (roadx>=0&&Ix>=0) Ix-=32;
+			else if (Ix>WIDTH/2) Ix-=32;
 			else if (road == true&&roadx<0) roadx+=32;
 			if (counter==6) disappear = true;
 			if (wall==true) {
@@ -365,9 +384,16 @@ public class Words extends JPanel implements KeyListener {
 			// fill this in
 		
 		if (keyCode == KeyEvent.VK_RIGHT && move == true) {
-			if (road == false||roadx<=-1274)Ix+=32;
+			if (Ix>=WIDTH-49&&Ix!=WIDTH-17) {
+				previousx = Ix;
+				Ix = WIDTH-17;
+			}
+			else if (Ix == 0) {
+				Ix = previousx;
+			}
+			else if ((road == false||roadx<=-1274)&&(Ix<WIDTH-49))Ix+=32;
 			else if (Ix<WIDTH/2) Ix+=32;
-			else if (road == true) roadx-=32;
+			else if (road == true&&Ix<WIDTH-49) roadx-=32;
 			if (counter==6) disappear = true;
 			if (wall==true) {
 				wall = false;
