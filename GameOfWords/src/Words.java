@@ -32,7 +32,7 @@ public class Words extends JPanel implements KeyListener {
 
 	
 	// your instance variables here, I've given you a few 
-	private boolean collide = false; 		// booleans to keep track of collision
+	private boolean collide = false, collideB = false; 		// booleans to keep track of collision
 	private int[] count = new int[15];// counter for type writer effect 
 	private boolean[] countStart = new boolean[15];// booleans to decide if the next string can be printed
 	private String[] text = new String[15];// the texts
@@ -57,6 +57,7 @@ public class Words extends JPanel implements KeyListener {
 	private int roadx = 0;// x position of the image road
 	private int countBall = 0;// counter for ball movement
 	private int previousx, previousy;// stores the previous position of "I"
+	private boolean bank = false;// when to enter bank scene
 	// image variables
 	private Image meImg, doorImg, door2Img, door3Img, lrImg, roadImg, bankImg, ballImg, bdoorImg, bdoor2Img, bdoor3Img;
 	private int Ix = 51;
@@ -86,7 +87,7 @@ public class Words extends JPanel implements KeyListener {
 		bankImg = Toolkit.getDefaultToolkit().getImage("bank.png");
 		ballImg = Toolkit.getDefaultToolkit().getImage("ball.png");
 		bdoorImg = Toolkit.getDefaultToolkit().getImage("bank door.png");
-		bdoor2Img = Toolkit.getDefaultToolkit().getImage("bank door2.png");
+		bdoor2Img = Toolkit.getDefaultToolkit().getImage("bank door 2.png");
 		bdoor3Img = Toolkit.getDefaultToolkit().getImage("bank door 3.png");
 		
 		
@@ -156,6 +157,13 @@ public class Words extends JPanel implements KeyListener {
 		if (Ix>=doorx-3&&Ix<=doorx+49&&Iy>=doory&&Iy<=doory+20) {
 			collide = true;
 		}
+		if (Ix>=roadx+1560&&Ix<=roadx+1636&&Iy>=350&&Iy<=478) collideB = true;
+		else if (Ix>=roadx+1532&&Ix<=roadx+1656&&Iy>=376&&Iy<=478) collideB = true;
+		else if (Ix>=roadx+1528&&Ix<=roadx+1685&&Iy>=414&&Iy<=478) collideB = true;
+		else if (Ix>=roadx+1496&&Ix<=roadx+1688&&Iy>=446&&Iy<=478) collideB = true;
+		else if (Ix>=roadx+1464&&Ix<=roadx+1718&&Iy>=460&&Iy<=478) collideB = true;
+		
+//		if (collideB == true) System.out.println("great");
 	}
 	// defines what we want to happen anytime we draw the game
 	// you simply need to fill in a few parameters here
@@ -286,7 +294,18 @@ public class Words extends JPanel implements KeyListener {
 			else if (countBall%100<50) g.drawImage(ballImg, roadx+915, 296, 56, 20, null);
 			else if (countBall%100<75) g.drawImage(ballImg, roadx+855, 296, 56, 20, null);
 			else g.drawImage(ballImg, roadx+915, 296, 56, 20, null);
-			g.drawImage(bdoorImg, roadx+1454, 358, 300, 144, null);// this position is not very accurate
+			g.drawImage(meImg, Ix, Iy, 17, 31, null);
+			if (collideB == true) countDoor[2]++;
+			if(countDoor[2]<50) g.drawImage(bdoorImg, roadx+1454, 358, 300, 144, null);
+			else if(countDoor[2]<100) g.drawImage(bdoor2Img, roadx+1454, 358, 300, 144, null);
+			else if (countDoor[2]<150) g.drawImage(bdoor3Img, roadx+1454, 358, 300, 144, null);
+			if(countDoor[2]==200) {
+				bank = true;
+			}
+		}
+		if (bank == true) {
+			g.setColor(Color.black);
+			g.fillRect(0, 0, WIDTH, HEIGHT);
 			g.drawImage(meImg, Ix, Iy, 17, 31, null);
 		}
 	}
@@ -459,6 +478,11 @@ public class Words extends JPanel implements KeyListener {
 					painting = false;
 				}
 			}
+		}
+		
+		if (keyCode == KeyEvent.VK_1) {
+			System.out.println(Ix-roadx);
+			System.out.println(Iy);
 		}
 			// fill this in
 
