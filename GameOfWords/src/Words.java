@@ -33,14 +33,14 @@ public class Words extends JPanel implements KeyListener {
 	
 	// your instance variables here, I've given you a few 
 	private boolean collide = false, collideB = false; 		// booleans to keep track of collision
-	private int[] count = new int[15];// counter for type writer effect 
-	private boolean[] countStart = new boolean[15];// booleans to decide if the next string can be printed
-	private String[] text = new String[15];// the texts
+	private int[] count = new int[30];// counter for type writer effect 
+	private boolean[] countStart = new boolean[30];// booleans to decide if the next string can be printed
+	private String[] text = new String[30];// the texts
 	private boolean next = false;// the boolean to decide if the program should progress to the next string
 	private int counter = 0;// count which string the program is on
-	private int[] timer  = new int[15];// timer in between the strings
-	private int[] x = new int[15];// x positions of the strings
-	private int[] y = new int[15];// y positions of the strings
+	private int[] timer  = new int[30];// timer in between the strings
+	private int[] x = new int[30];// x positions of the strings
+	private int[] y = new int[30];// y positions of the strings
 	private boolean move = false;
 	private int[] countDoor = new int[10];// counter for the door image
 	private boolean explain = false;// signify when to print the explanation for living room scene
@@ -58,12 +58,14 @@ public class Words extends JPanel implements KeyListener {
 	private int countBall = 0;// counter for ball movement
 	private int previousx, previousy;// stores the previous position of "I"
 	private boolean bank = false;// when to enter bank scene
+	private boolean banktype = false;// when to start typing for bank scene
+	private boolean clean = false;// cleans the board after certain conversation
 	// image variables
 	private Image meImg, doorImg, door2Img, door3Img, lrImg, roadImg, bankImg, ballImg, bdoorImg, bdoor2Img, bdoor3Img;
 	private int Ix = 51;
 	private int Iy = 116;
 	
-	// this method returns the "inter" for the type writer effect
+	// this method returns the strings for the type writer effect
 	public String type(String str, int num) {
 		int inter = num/10;
 		if (inter>str.length()) {
@@ -104,6 +106,13 @@ public class Words extends JPanel implements KeyListener {
 		text[9] = "He holds the key to the door of success.";
 		text[10] = "Orchids. They smell nice.";
 		text[11] = "Table made from aromatic fine wood.";
+		text[12] = "'This is the worst place to meet.' I said.";
+		text[13] = "'Or the best place. Remember, it's dark under";
+		text[14] = "the light.' My boss said.";
+		text[15] = "'Ok, I don't have much time to waste.' He";
+		text[16] = "slides a piece of paper into my pocket,";
+		text[17] = "'Tomorrow, be on time.'";
+		
 		
 		// set first countStart boolean in order to initiate the typing
 		countStart[0] = true;
@@ -124,7 +133,23 @@ public class Words extends JPanel implements KeyListener {
 		if (timer[5]==20) {
 			countStart[5] = true;
 		}
-		
+		if (timer[13]==60) {
+			countStart[13] = true;
+		}
+		if (timer[14]==20) {
+			countStart[14] = true;
+		}
+		if (timer[15]==70) {
+			clean = true;
+			countStart[15] = true;
+		}
+		if (timer[16]==60) {
+			countStart[16] = true;
+		}
+		if (timer[17]==60) {
+			countStart[17]=true;
+		}
+
 		// setting up x and y positions for the strings
 		x[0] = 68;
 		y[0] = 140;
@@ -150,6 +175,18 @@ public class Words extends JPanel implements KeyListener {
 		y[10] = 130;
 		x[11] = 20;
 		y[11] = 130;
+		x[12] = 50;
+		y[12] = 220;
+		x[13] = 50;
+		y[13] = 300;
+		x[14] = 50;
+		y[14] = 380;
+		x[15] = 50;
+		y[15] = 220;
+		x[16] = 50;
+		y[16] = 300;
+		x[17] = 50;
+		y[17] = 380;
 	}
 	
 	// check if I and something else collides
@@ -165,7 +202,7 @@ public class Words extends JPanel implements KeyListener {
 		
 //		if (collideB == true) System.out.println("great");
 	}
-	// defines what we want to happen anytime we draw the game
+	// defines what we want to happen any time we draw the game
 	// you simply need to fill in a few parameters here
 	public void paint(Graphics g) {
 		
@@ -180,36 +217,38 @@ public class Words extends JPanel implements KeyListener {
 		Font f = new Font("Chalkboard", Font.PLAIN, 24);
 		g.setFont(f);
 		g.setColor(Color.white);
-		if (countStart[counter]==true) {
-			count[counter]++;
-			g.drawString(type(text[counter], count[counter]), x[counter], y[counter]);
-		}
-		else {
-			timer[counter]++;
-		}
-		if (next==true) {
-			counter++;
-			next = false;
-		}
-		if (counter<5) {
-			for (int i = 0; i<counter; i++) {
-				if (i==3) {
-					text[3] = "But where is the      ?";
-					if(countDoor[0]<20) g.drawImage(doorImg, doorx, doory, 49, 20, null);
-					else if(countDoor[0]<40) g.drawImage(door2Img, doorx, doory, 49, 20, null);
-					else if (countDoor[0]<60) g.drawImage(door3Img, doorx, doory, 49, 20, null);
-				}
-				g.drawString(text[i], x[i], y[i]);
+		if (counter<=4) {
+			if (countStart[counter]==true) {
+				count[counter]++;
+				g.drawString(type(text[counter], count[counter]), x[counter], y[counter]);
 			}
-		}
-		if (counter==4) move = true;
-		// if collide, clear screen
-		if(collide == true&&painting == false) {
-			countDoor[0]++;
-			// background color is black
-			if (countDoor[0] >= 80) {
-				lr = true;
-				collide = false;
+			else {
+				timer[counter]++;
+			}
+			if (next==true) {
+				counter++;
+				next = false;
+			}
+			if (counter<5) {
+				for (int i = 0; i<counter; i++) {
+					if (i==3) {
+						text[3] = "But where is the      ?";
+						if(countDoor[0]<20) g.drawImage(doorImg, doorx, doory, 49, 20, null);
+						else if(countDoor[0]<40) g.drawImage(door2Img, doorx, doory, 49, 20, null);
+						else if (countDoor[0]<60) g.drawImage(door3Img, doorx, doory, 49, 20, null);
+					}
+					g.drawString(text[i], x[i], y[i]);
+				}
+			}
+			if (counter==4) move = true;
+			// if collide, clear screen
+			if(collide == true&&painting == false) {
+				countDoor[0]++;
+				// background color is black
+				if (countDoor[0] >= 80) {
+					lr = true;
+					collide = false;
+				}
 			}
 		}
 		if (lr == true) {
@@ -218,7 +257,7 @@ public class Words extends JPanel implements KeyListener {
 			explain = true;
 			move = false;
 		}
-		if(counter>=4) {
+		if(counter>=4&&counter<12) {
 			if (countStart[counter]==true) {
 				count[counter]++;
 				g.drawString(type(text[counter], count[counter]), x[counter], y[counter]);
@@ -301,12 +340,50 @@ public class Words extends JPanel implements KeyListener {
 			else if (countDoor[2]<150) g.drawImage(bdoor3Img, roadx+1454, 358, 300, 144, null);
 			if(countDoor[2]==200) {
 				bank = true;
+				banktype = true;
 			}
 		}
 		if (bank == true) {
 			g.setColor(Color.black);
 			g.fillRect(0, 0, WIDTH, HEIGHT);
-			g.drawImage(meImg, Ix, Iy, 17, 31, null);
+		}
+		if (banktype==true) {
+			counter = 12;
+			countStart[counter] = true;
+			banktype = false;
+		}
+		g.setFont(f);
+		g.setColor(Color.white);
+		if (counter>=12) {
+			if (clean==true) {
+				g.setColor(Color.black);
+				g.fillRect(0, 0, WIDTH, HEIGHT);
+			}
+			if (countStart[counter]==true) {
+				g.setFont(f);
+				g.setColor(Color.white);
+				count[counter]++;
+				g.drawString(type(text[counter], count[counter]), x[counter], y[counter]);
+			}
+			else {
+				timer[counter]++;
+			}
+			if (next==true) {
+				counter++;
+				next = false;
+			}
+			if (clean==false) {
+				for (int i = 12; i<counter; i++) {
+					g.drawString(text[i], x[i], y[i]);
+				}
+			}
+			else {
+				for (int i = 15; i<counter; i++) {
+					g.setFont(f);
+					g.setColor(Color.white);
+					g.drawString(text[i], x[i], y[i]);
+				}
+			}
 		}
 	}
 
