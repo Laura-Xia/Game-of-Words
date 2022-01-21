@@ -80,17 +80,17 @@ public class Words extends JPanel implements KeyListener {
 	// upload my images and give values to arrays
 	public void setup() {
 		// upload my images
-		meImg = Toolkit.getDefaultToolkit().getImage("I.png");
-		doorImg = Toolkit.getDefaultToolkit().getImage("door.png");
-		door2Img = Toolkit.getDefaultToolkit().getImage("door 2.png");
-		door3Img = Toolkit.getDefaultToolkit().getImage("door 3.png");
-		lrImg = Toolkit.getDefaultToolkit().getImage("living room.png");
-		roadImg = Toolkit.getDefaultToolkit().getImage("road.png");
-		bankImg = Toolkit.getDefaultToolkit().getImage("bank.png");
-		ballImg = Toolkit.getDefaultToolkit().getImage("ball.png");
-		bdoorImg = Toolkit.getDefaultToolkit().getImage("bank door.png");
-		bdoor2Img = Toolkit.getDefaultToolkit().getImage("bank door 2.png");
-		bdoor3Img = Toolkit.getDefaultToolkit().getImage("bank door 3.png");
+		meImg = Toolkit.getDefaultToolkit().getImage("Images/I.png");
+		doorImg = Toolkit.getDefaultToolkit().getImage("Images/door.png");
+		door2Img = Toolkit.getDefaultToolkit().getImage("Images/door 2.png");
+		door3Img = Toolkit.getDefaultToolkit().getImage("Images/door 3.png");
+		lrImg = Toolkit.getDefaultToolkit().getImage("Images/living room.png");
+		roadImg = Toolkit.getDefaultToolkit().getImage("Images/road.png");
+		bankImg = Toolkit.getDefaultToolkit().getImage("Images/bank.png");
+		ballImg = Toolkit.getDefaultToolkit().getImage("Images/ball.png");
+		bdoorImg = Toolkit.getDefaultToolkit().getImage("Images/bank door.png");
+		bdoor2Img = Toolkit.getDefaultToolkit().getImage("Images/bank door 2.png");
+		bdoor3Img = Toolkit.getDefaultToolkit().getImage("Images/bank door 3.png");
 		
 		
 		// text array
@@ -143,7 +143,7 @@ public class Words extends JPanel implements KeyListener {
 			clean = true;
 			countStart[15] = true;
 		}
-		if (timer[16]==60) {
+		if (timer[16]==20) {
 			countStart[16] = true;
 		}
 		if (timer[17]==60) {
