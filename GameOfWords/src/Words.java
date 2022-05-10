@@ -60,8 +60,9 @@ public class Words extends JPanel implements KeyListener {
 	private boolean bank = false;// when to enter bank scene
 	private boolean banktype = false;// when to start typing for bank scene
 	private boolean clean = false;// cleans the board after certain conversation
+	private int flicker = 0;// counter for the flickering effect in the paper slip scene
 	// image variables
-	private Image meImg, doorImg, door2Img, door3Img, lrImg, roadImg, bankImg, ballImg, bdoorImg, bdoor2Img, bdoor3Img;
+	private Image meImg, doorImg, door2Img, door3Img, lrImg, roadImg, bankImg, ballImg, bdoorImg, bdoor2Img, bdoor3Img, pslipImg, pslip2Img;
 	private int Ix = 51;
 	private int Iy = 116;
 	
@@ -91,6 +92,8 @@ public class Words extends JPanel implements KeyListener {
 		bdoorImg = Toolkit.getDefaultToolkit().getImage("Images/bank door.png");
 		bdoor2Img = Toolkit.getDefaultToolkit().getImage("Images/bank door 2.png");
 		bdoor3Img = Toolkit.getDefaultToolkit().getImage("Images/bank door 3.png");
+		pslipImg = Toolkit.getDefaultToolkit().getImage("Images/paper slip.png");
+		pslip2Img = Toolkit.getDefaultToolkit().getImage("Images/paper slip 2.png");
 		
 		
 		// text array
@@ -106,9 +109,9 @@ public class Words extends JPanel implements KeyListener {
 		text[9] = "He holds the key to the door of success.";
 		text[10] = "Orchids. They smell nice.";
 		text[11] = "Table made from aromatic fine wood.";
-		text[12] = "'This is the worst place to meet.' I said.";
+		text[12] = "'This is the worst place to meet.' I remark.";
 		text[13] = "'Or the best place. Remember, it's dark under";
-		text[14] = "the light.' My boss said.";
+		text[14] = "the light.' My boss says.";
 		text[15] = "'Ok, I don't have much time to waste.' He";
 		text[16] = "slides a piece of paper into my pocket,";
 		text[17] = "'Tomorrow, be on time.'";
@@ -127,9 +130,7 @@ public class Words extends JPanel implements KeyListener {
 		if (timer[3]==70) {
 			countStart[3] = true;
 		}
-		if (explain == true) {
-			countStart[4] = true;
-		}
+		
 		if (timer[5]==20) {
 			countStart[5] = true;
 		}
@@ -248,6 +249,8 @@ public class Words extends JPanel implements KeyListener {
 				if (countDoor[0] >= 80) {
 					lr = true;
 					collide = false;
+					doorx = 1200;
+					doory = 1200;
 				}
 			}
 		}
@@ -354,7 +357,7 @@ public class Words extends JPanel implements KeyListener {
 		}
 		g.setFont(f);
 		g.setColor(Color.white);
-		if (counter>=12) {
+		if (counter>=12&&counter<18) {
 			if (clean==true) {
 				g.setColor(Color.black);
 				g.fillRect(0, 0, WIDTH, HEIGHT);
@@ -385,6 +388,15 @@ public class Words extends JPanel implements KeyListener {
 				}
 			}
 		}
+		if (counter==18) {
+			flicker++;
+			if (flicker%90<45) g.drawImage(pslipImg, 0, 0, WIDTH, HEIGHT, null);
+			else g.drawImage(pslip2Img, 0, 0, WIDTH, HEIGHT, null);
+			Ix = 233;
+			Iy = 285;
+			g.drawImage(meImg, Ix, Iy, 17, 31, null);
+			move = true;
+		}
 	}
 
 	// defines what we want to happen if a keyboard button has 
@@ -400,7 +412,10 @@ public class Words extends JPanel implements KeyListener {
 				Iy = HEIGHT-60;
 			}
 			else if (Iy == 0) Iy = previousy;
-			else if (Iy<=HEIGHT-92) Iy+=32;
+			else if (Iy<=HEIGHT-92) {
+				Iy+=32; 
+				if(flicker>0) System.out.println("down");
+			}
 			else Iy = HEIGHT-60;
 			if (counter==6) disappear = true;
 			if (wall==true) {
@@ -558,8 +573,9 @@ public class Words extends JPanel implements KeyListener {
 		}
 		
 		if (keyCode == KeyEvent.VK_1) {
-			System.out.println(Ix-roadx);
+			System.out.println(Ix);
 			System.out.println(Iy);
+			System.out.println(move);
 		}
 			// fill this in
 
