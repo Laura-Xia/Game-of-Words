@@ -24,7 +24,6 @@ import javax.swing.JTextArea;
 public class Road extends Type{
 	private int countBall = 0;// counter for ball movement
 	private Image roadImg, bankImg, ballImg, bdoorImg, bdoor2Img, bdoor3Img, meImg;
-	private boolean collide = false;
 	private int roadx = 0;// x position of the image road
 	private boolean bank = false;// when to enter bank scene
 	private boolean banktype = false;// when to start typing for bank scene
@@ -65,7 +64,7 @@ public class Road extends Type{
 		else if (countBall%100<75) g.drawImage(ballImg, roadx+855, 296, 56, 20, null);
 		else g.drawImage(ballImg, roadx+915, 296, 56, 20, null);
 		g.drawImage(meImg, Ix, Iy, 17, 31, null);
-		if (collide == true) countDoor++;
+		if (collision()) countDoor++;
 		if(countDoor<50) g.drawImage(bdoorImg, roadx+1454, 358, 300, 144, null);
 		else if(countDoor<100) g.drawImage(bdoor2Img, roadx+1454, 358, 300, 144, null);
 		else if (countDoor<150) g.drawImage(bdoor3Img, roadx+1454, 358, 300, 144, null);
