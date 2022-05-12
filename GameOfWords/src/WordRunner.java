@@ -27,19 +27,31 @@ public class WordRunner extends JPanel implements KeyListener{
 	public int Ix = 51;
 	public int Iy = 116;
 	public int previousx, previousy;// stores the previous position of "I"
+	public int index = 0;
 	
-	Type scene = new Intro(this);
+	public Type[] scene = new Type[5];
+	
+	public void initialize() {
+		scene[0] = new Intro(this);
+		scene[1] = new LivingRoom(this);
+		scene[2] = new Road(this);
+		scene[3] = new Bank(this);
+		scene[4] = new Paper(this);
+		for(int i = 0; i<scene.length; i++) {
+			scene[i].initialize();
+		}
+	}
 	
 	public void setup() {
-		scene.setup();
+		scene[index].setup();
 	}
 
 	public void paint(Graphics g) {
-		scene.draw(g);
+		scene[index].draw(g);
 	}
 	@Override
 	public void keyPressed(KeyEvent e) {
-		scene.keyPressed(e);
+		scene[index].keyPressed(e);
 	}
 
 	@Override
@@ -55,12 +67,13 @@ public class WordRunner extends JPanel implements KeyListener{
 
 		// while(true) should rarely be used to avoid infinite loops, but here it is ok because
 		// closing the graphics window will end the program
+		initialize();
 		while (true) {
 	
 			// draws the game
+			setup();
 			repaint();
 			
-			setup();
 			
 			
 			// every hundredth of a second

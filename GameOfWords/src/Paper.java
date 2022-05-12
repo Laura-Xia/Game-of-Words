@@ -34,7 +34,7 @@ public class Paper extends Type{
 		main = m;
 	}
 	
-	public void setup() {
+	public void initialize() {
 		meImg = Toolkit.getDefaultToolkit().getImage("Images/I.png");
 		pslipImg = Toolkit.getDefaultToolkit().getImage("Images/paper slip.png");
 		pslip2Img = Toolkit.getDefaultToolkit().getImage("Images/paper slip 2.png");

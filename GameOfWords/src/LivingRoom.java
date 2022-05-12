@@ -49,7 +49,7 @@ public class LivingRoom extends Type{
 		main = m;
 	}
 	
-	public void setup() {
+	public void initialize() {
 		meImg = Toolkit.getDefaultToolkit().getImage("Images/I.png");
 		doorImg = Toolkit.getDefaultToolkit().getImage("Images/door.png");
 		door2Img = Toolkit.getDefaultToolkit().getImage("Images/door 2.png");
@@ -64,13 +64,6 @@ public class LivingRoom extends Type{
 		text[5] = "He holds the key to the door of success.";
 		text[6] = "Orchids. They smell nice.";
 		text[7] = "Table made from aromatic fine wood.";
-		
-		if (explain == true) {
-			countStart[0] = true;
-		}
-		if (timer[1]==20) {
-			countStart[1] = true;
-		}
 		
 		x[0] = 20;
 		y[0] = 130;
@@ -88,6 +81,15 @@ public class LivingRoom extends Type{
 		y[6] = 130;
 		x[7] = 20;
 		y[7] = 130;
+	}
+	
+	public void setup() {
+		if (explain == true) {
+			countStart[0] = true;
+		}
+		if (timer[1]==20) {
+			countStart[1] = true;
+		}
 	}
 	
 	public boolean collision() {
@@ -157,7 +159,7 @@ public class LivingRoom extends Type{
 				else if(countDoor<40) g.drawImage(door2Img, doorx, doory, 49, 20, null);
 				else if (countDoor<60) g.drawImage(door3Img, doorx, doory, 49, 20, null);
 				if(countDoor==80) {
-					main.scene = new Road(main);
+					main.index++;
 				}
 			}
 		}

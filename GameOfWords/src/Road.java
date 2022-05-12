@@ -45,7 +45,7 @@ public class Road extends Type{
 		return false;
 	}
 	
-	public void setup() {
+	public void initialize() {
 		roadImg = Toolkit.getDefaultToolkit().getImage("Images/road.png");
 		bankImg = Toolkit.getDefaultToolkit().getImage("Images/bank.png");
 		ballImg = Toolkit.getDefaultToolkit().getImage("Images/ball.png");
@@ -69,7 +69,7 @@ public class Road extends Type{
 		else if(countDoor<100) g.drawImage(bdoor2Img, roadx+1454, 358, 300, 144, null);
 		else if (countDoor<150) g.drawImage(bdoor3Img, roadx+1454, 358, 300, 144, null);
 		if(countDoor==200) {
-			main.scene = new Bank(main);
+			main.index++;
 		}
 	}
 	

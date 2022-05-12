@@ -38,7 +38,7 @@ public class Bank extends Type{
 		main = m;
 	}
 	
-	public void setup() {
+	public void initialize() {
 		text[0] = "'This is the worst place to meet.' I remark.";
 		text[1] = "'Or the best place. Remember, it's dark under";
 		text[2] = "the light.' My boss says.";
@@ -46,6 +46,21 @@ public class Bank extends Type{
 		text[4] = "slides a piece of paper into my pocket,";
 		text[5] = "'Tomorrow, be on time.'";
 		
+		x[0] = 50;
+		y[0] = 220;
+		x[1] = 50;
+		y[1] = 300;
+		x[2] = 50;
+		y[2] = 380;
+		x[3] = 50;
+		y[3] = 220;
+		x[4] = 50;
+		y[4] = 300;
+		x[5] = 50;
+		y[5] = 380;
+	}
+	
+	public void setup() {
 		countStart[0] = true;
 		
 		if (timer[1]==60) {
@@ -64,19 +79,6 @@ public class Bank extends Type{
 		if (timer[5]==60) {
 			countStart[5]=true;
 		}
-		
-		x[0] = 50;
-		y[0] = 220;
-		x[1] = 50;
-		y[1] = 300;
-		x[2] = 50;
-		y[2] = 380;
-		x[3] = 50;
-		y[3] = 220;
-		x[4] = 50;
-		y[4] = 300;
-		x[5] = 50;
-		y[5] = 380;
 	}
 	
 	public void draw(Graphics g) {
@@ -117,7 +119,7 @@ public class Bank extends Type{
 			}
 		}
 		if (counter==6) {
-			main.scene = new Paper(main);
+			main.index++;
 		}
 	}
 }

@@ -44,7 +44,7 @@ public class Intro extends Type{
 	}
 
 	
-	public void setup() {
+	public void initialize() {
 		meImg = Toolkit.getDefaultToolkit().getImage("Images/I.png");
 		doorImg = Toolkit.getDefaultToolkit().getImage("Images/door.png");
 		door2Img = Toolkit.getDefaultToolkit().getImage("Images/door 2.png");
@@ -55,6 +55,17 @@ public class Intro extends Type{
 		text[2] = "decide to leave the room.";
 		text[3] = "But where is the door?";
 		
+		x[0] = 68;
+		y[0] = 140;
+		x[1] = 50;
+		y[1] = 220;
+		x[2] = 50;
+		y[2] = 300;
+		x[3] = 50;
+		y[3] = 420;
+	}
+	
+	public void setup() {
 		countStart[0] = true;
 		
 		// time between each string
@@ -67,15 +78,6 @@ public class Intro extends Type{
 		if (timer[3]==70) {
 			countStart[3] = true;
 		}
-		
-		x[0] = 68;
-		y[0] = 140;
-		x[1] = 50;
-		y[1] = 220;
-		x[2] = 50;
-		y[2] = 300;
-		x[3] = 50;
-		y[3] = 420;
 	}
 	
 	public boolean collision() {
@@ -125,7 +127,7 @@ public class Intro extends Type{
 				countDoor++;
 //				 background color is black
 				if (countDoor >= 80) {
-					main.scene = new LivingRoom(main);
+					main.index++;
 				}
 			}
 		}
