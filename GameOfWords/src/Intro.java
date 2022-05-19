@@ -63,6 +63,21 @@ public class Intro extends Type{
 		y[2] = 300;
 		x[3] = 50;
 		y[3] = 420;
+		
+		countDoor = 0;
+		counter = 0;
+		
+		main.Ix = 51;
+		main.Iy = 116;
+		doorx = 242;// x position of image door
+		doory = 401;// y position of image door
+		move = false;
+		
+		for(int i = 0; i<5; i++) {
+			countStart[i] = false;
+			count[i] = 0;
+			timer[i] = 0;
+		}
 	}
 	
 	public void setup() {
@@ -128,6 +143,7 @@ public class Intro extends Type{
 //				 background color is black
 				if (countDoor >= 80) {
 					main.index++;
+					main.scene[main.index].initialize();
 				}
 			}
 		}

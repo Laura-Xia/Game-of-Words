@@ -25,8 +25,6 @@ public class Road extends Type{
 	private int countBall = 0;// counter for ball movement
 	private Image roadImg, bankImg, ballImg, bdoorImg, bdoor2Img, bdoor3Img, meImg;
 	private int roadx = 0;// x position of the image road
-	private boolean bank = false;// when to enter bank scene
-	private boolean banktype = false;// when to start typing for bank scene
 	private int countDoor = 0;// counter for the door image
 	private int Ix = 280;
 	private int Iy = 350;
@@ -53,6 +51,12 @@ public class Road extends Type{
 		bdoor2Img = Toolkit.getDefaultToolkit().getImage("Images/bank door 2.png");
 		bdoor3Img = Toolkit.getDefaultToolkit().getImage("Images/bank door 3.png");
 		meImg = Toolkit.getDefaultToolkit().getImage("Images/I.png");
+		
+		countBall = 0;// counter for ball movement
+		roadx = 0;// x position of the image road
+		countDoor = 0;// counter for the door image
+		Ix = 280;
+		Iy = 350;
 	}
 	
 	public void draw(Graphics g) {
@@ -70,6 +74,7 @@ public class Road extends Type{
 		else if (countDoor<150) g.drawImage(bdoor3Img, roadx+1454, 358, 300, 144, null);
 		if(countDoor==200) {
 			main.index++;
+			main.scene[main.index].initialize();
 		}
 	}
 	

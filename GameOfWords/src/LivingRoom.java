@@ -81,6 +81,29 @@ public class LivingRoom extends Type{
 		y[6] = 130;
 		x[7] = 20;
 		y[7] = 130;
+		
+		counter = 0;
+		explain = false;
+		disappear = false;
+		inspect = false;
+		move = false;
+		interm = 4;
+		keep = false;
+		changeD = false;
+		doorx = 242;
+		doory = 401;
+		countDoor = 0;
+		
+		for(int i = 0; i<9; i++) {
+			countStart[i] = false;
+			count[i] = 0;
+			timer[i] = 0;
+		}
+		wall = false;
+		cabinet = false;
+		painting = false;
+		table = false;
+		flower = false;
 	}
 	
 	public void setup() {
@@ -160,6 +183,7 @@ public class LivingRoom extends Type{
 				else if (countDoor<60) g.drawImage(door3Img, doorx, doory, 49, 20, null);
 				if(countDoor==80) {
 					main.index++;
+					main.scene[main.index].initialize();
 				}
 			}
 		}

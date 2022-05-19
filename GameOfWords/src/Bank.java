@@ -58,6 +58,15 @@ public class Bank extends Type{
 		y[4] = 300;
 		x[5] = 50;
 		y[5] = 380;
+		
+		counter = 0;
+		clean = false;
+		
+		for(int i = 0; i<7; i++) {
+			countStart[i] = false;
+			count[i] = 0;
+			timer[i] = 0;
+		}
 	}
 	
 	public void setup() {
@@ -120,6 +129,7 @@ public class Bank extends Type{
 		}
 		if (counter==6) {
 			main.index++;
+			main.scene[main.index].initialize();
 		}
 	}
 }

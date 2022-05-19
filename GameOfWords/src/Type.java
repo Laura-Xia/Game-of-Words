@@ -1,6 +1,8 @@
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 public class Type {
 	private boolean next = false;
@@ -27,4 +29,5 @@ public class Type {
 	public void keyTyped(KeyEvent e) {}
 	public void initialize() {}
 	public void setup() {}
+	public void mousePressed(MouseEvent e) {}
 }

@@ -53,6 +53,10 @@ public class WordRunner extends JPanel implements KeyListener{
 	public void keyPressed(KeyEvent e) {
 		scene[index].keyPressed(e);
 	}
+	
+	public void mouseP(MouseEvent e) {
+		scene[index].mousePressed(e);
+	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
@@ -100,6 +104,26 @@ public class WordRunner extends JPanel implements KeyListener{
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
 		frame.setVisible(true);
+		frame.addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				mouseP(e);
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {}
+
+			@Override
+			public void mouseExited(MouseEvent e) {}
+			
+		});
 		this.addKeyListener(this);
 		this.setFocusable(true);
 		
