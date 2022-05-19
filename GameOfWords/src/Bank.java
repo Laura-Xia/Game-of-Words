@@ -39,13 +39,14 @@ public class Bank extends Type{
 	}
 	
 	public void initialize() {
+		// setup sentences
 		text[0] = "'This is the worst place to meet.' I remark.";
 		text[1] = "'Or the best place. Remember, it's dark under";
 		text[2] = "the light.' My boss says.";
 		text[3] = "'Ok, I don't have much time to waste.' He";
 		text[4] = "slides a piece of paper into my pocket,";
 		text[5] = "'Tomorrow, be on time.'";
-		
+		// setup all positions of the sentences
 		x[0] = 50;
 		y[0] = 220;
 		x[1] = 50;
@@ -58,7 +59,7 @@ public class Bank extends Type{
 		y[4] = 300;
 		x[5] = 50;
 		y[5] = 380;
-		
+		// reset these variables every time the scene is ran 
 		counter = 0;
 		clean = false;
 		
@@ -70,6 +71,7 @@ public class Bank extends Type{
 	}
 	
 	public void setup() {
+		// setup countStart variables for typewriter effect
 		countStart[0] = true;
 		
 		if (timer[1]==60) {
@@ -91,34 +93,43 @@ public class Bank extends Type{
 	}
 	
 	public void draw(Graphics g) {
+		// set background
 		g.setColor(Color.black);
 		g.fillRect(0, 0, main.WIDTH, main.HEIGHT);
+		// set font
 		Font f = new Font("Chalkboard", Font.PLAIN, 24);
 		g.setFont(f);
 		g.setColor(Color.white);
+		// print out all the strings
 		if (counter>=0&&counter<6) {
+			// if one section ends, clear the screen
 			if (clean==true) {
 				g.setColor(Color.black);
 				g.fillRect(0, 0, main.WIDTH, main.HEIGHT);
 			}
+			// typewriter effect for strings
 			if (countStart[counter]==true) {
 				g.setFont(f);
 				g.setColor(Color.white);
 				count[counter]++;
 				g.drawString(type(text[counter], count[counter]), x[counter], y[counter]);
 			}
+			// pause between strings
 			else {
 				timer[counter]++;
 			}
+			// goes to next string
 			if (getNext()) {
 				counter++;
 				setNext(false);
 			}
+			// keeps all strings of the first section 
 			if (clean==false) {
 				for (int i = 0; i<counter; i++) {
 					g.drawString(text[i], x[i], y[i]);
 				}
 			}
+			// keeps all strings of the second section
 			else {
 				for (int i = 3; i<counter; i++) {
 					g.setFont(f);
@@ -127,6 +138,7 @@ public class Bank extends Type{
 				}
 			}
 		}
+		// after all strings are printed, change to next scene
 		if (counter==6) {
 			main.index++;
 			main.scene[main.index].initialize();

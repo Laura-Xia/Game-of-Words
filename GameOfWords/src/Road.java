@@ -33,7 +33,7 @@ public class Road extends Type{
 	public Road(WordRunner m) {
 		main = m;
 	}
-	
+	// collision method with the big bank door
 	public boolean collision() {
 		if (Ix>=roadx+1560&&Ix<=roadx+1636&&Iy>=350&&Iy<=478) return true;
 		else if (Ix>=roadx+1532&&Ix<=roadx+1656&&Iy>=376&&Iy<=478) return true;
@@ -44,6 +44,7 @@ public class Road extends Type{
 	}
 	
 	public void initialize() {
+		// setup all pictures
 		roadImg = Toolkit.getDefaultToolkit().getImage("Images/road.png");
 		bankImg = Toolkit.getDefaultToolkit().getImage("Images/bank.png");
 		ballImg = Toolkit.getDefaultToolkit().getImage("Images/ball.png");
@@ -51,7 +52,7 @@ public class Road extends Type{
 		bdoor2Img = Toolkit.getDefaultToolkit().getImage("Images/bank door 2.png");
 		bdoor3Img = Toolkit.getDefaultToolkit().getImage("Images/bank door 3.png");
 		meImg = Toolkit.getDefaultToolkit().getImage("Images/I.png");
-		
+		// reset these variables every time the scene is ran 
 		countBall = 0;// counter for ball movement
 		roadx = 0;// x position of the image road
 		countDoor = 0;// counter for the door image
@@ -60,18 +61,24 @@ public class Road extends Type{
 	}
 	
 	public void draw(Graphics g) {
+		// let the ball bounce from and to the dog
 		countBall++;
+		// draws background pictures
 		g.drawImage(roadImg, roadx, 0, 1214, main.HEIGHT, null);
 		g.drawImage(bankImg, roadx+1214, 0, 660, main.HEIGHT, null);
+		// ball bounce
 		if (countBall%100<25) g.drawImage(ballImg, roadx+975, 296, 56, 20, null);
 		else if (countBall%100<50) g.drawImage(ballImg, roadx+915, 296, 56, 20, null);
 		else if (countBall%100<75) g.drawImage(ballImg, roadx+855, 296, 56, 20, null);
 		else g.drawImage(ballImg, roadx+915, 296, 56, 20, null);
+		// draw main character
 		g.drawImage(meImg, Ix, Iy, 17, 31, null);
+		// starts changing "bank door"'s appearance after collision
 		if (collision()) countDoor++;
 		if(countDoor<50) g.drawImage(bdoorImg, roadx+1454, 358, 300, 144, null);
 		else if(countDoor<100) g.drawImage(bdoor2Img, roadx+1454, 358, 300, 144, null);
 		else if (countDoor<150) g.drawImage(bdoor3Img, roadx+1454, 358, 300, 144, null);
+		// after a while, changes scenes
 		if(countDoor==200) {
 			main.index++;
 			main.scene[main.index].initialize();
@@ -82,7 +89,7 @@ public class Road extends Type{
 		
 		int keyCode = e.getKeyCode();
 		
-		// changes paddle direction based on what button is pressed
+		// move method for moving down, but cannot move over the borders
 		if (keyCode == KeyEvent.VK_DOWN) {
 			if (Iy>=main.HEIGHT-92&&Iy!=main.HEIGHT-60) {
 				main.previousy = Iy;
@@ -95,7 +102,7 @@ public class Road extends Type{
 			else Iy = main.HEIGHT-60;
 		}
 			// fill this in
-		
+		// move method for moving up, but cannot move over the borders
 		if (keyCode == KeyEvent.VK_UP) {
 			if (Iy<=32&&Iy!=0) {
 				main.previousy = Iy;
@@ -104,7 +111,7 @@ public class Road extends Type{
 			else if (Iy == main.HEIGHT) Iy = main.previousy;
 			else if (Iy>=32) Iy-=32;
 		} 
-		
+		// move left, if move to the middle, background moves but character stays put
 		if (keyCode == KeyEvent.VK_LEFT) {
 			if (Ix<=32&&Ix!=0) {
 				main.previousx = Ix;
@@ -118,7 +125,7 @@ public class Road extends Type{
 			
 		}
 			// fill this in
-		
+		// move right, if move to the middle, background moves but character stays put
 		if (keyCode == KeyEvent.VK_RIGHT) {
 			if (Ix>=main.WIDTH-49&&Ix!=main.WIDTH-17) {
 				main.previousx = Ix;

@@ -1,6 +1,10 @@
 // filler code for pong provided by Mr. David
-// I got the idea of this game from "Word Game" on Steam featured by Team9. This game is similar to "Word Game", but in 
+// I got the idea of this game from "Word Game" on Steam featured by Team9. This game is similar to "Word Game", but in English
 // instead of Chinese, and the plot is also different.
+
+// this is the initial and unfinished version of the code, and it is no longer in use due to its length and inefficiency.
+// However, I still decided to keep it because it has a smoother transition than the current version since all scenes are in one class
+// not all code in this class are commented since I abandoned this class. 
 
 import java.awt.BorderLayout;
 import java.awt.Color;

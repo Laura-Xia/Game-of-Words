@@ -1,3 +1,9 @@
+// filler code for pong provided by Mr. David
+// I got the idea of this game from "Word Game" on Steam featured by Team9. This game is similar to "Word Game", but in English
+// instead of Chinese, and the plot is also different.
+
+// Don't run Words.java, run this to get the complete plot.
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -24,14 +30,15 @@ import javax.swing.JTextArea;
 public class WordRunner extends JPanel implements KeyListener{
 	public final int WIDTH = 600, HEIGHT = 600, WINDOW_HEIGHT = 600;
 
-	public int Ix = 51;
-	public int Iy = 116;
+	public int Ix = 51;// x position of "I"
+	public int Iy = 116;// y position of "I"
 	public int previousx, previousy;// stores the previous position of "I"
-	public int index = 0;
+	public int index = 0;// index to mark which scene the player is on
 	
-	public Type[] scene = new Type[5];
+	public Type[] scene = new Type[5];// array of scenes
 	
 	public void initialize() {
+		// Initialize all the scenes and run their initialize method.
 		scene[0] = new Intro(this);
 		scene[1] = new LivingRoom(this);
 		scene[2] = new Road(this);
@@ -43,18 +50,22 @@ public class WordRunner extends JPanel implements KeyListener{
 	}
 	
 	public void setup() {
+		// run each scene's setup
 		scene[index].setup();
 	}
 
 	public void paint(Graphics g) {
+		// run each scene's draw method
 		scene[index].draw(g);
 	}
 	@Override
 	public void keyPressed(KeyEvent e) {
+		// run each scene's key press
 		scene[index].keyPressed(e);
 	}
 	
 	public void mouseP(MouseEvent e) {
+		// run transition scenes' mouse press
 		scene[index].mousePressed(e);
 	}
 
